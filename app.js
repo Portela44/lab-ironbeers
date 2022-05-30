@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 
 const hbs = require('hbs');
@@ -13,6 +14,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Register the location for handlebars partials here:
+hbs.registerPartials(__dirname + "/views/partials");
 
 // ...
 
@@ -22,8 +24,11 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get("/beers", (req, res) => {
-  res.render("beers")
+app.get("/beers", (req, res, next) => {
+  punkAPI
+    .getBeers()
+    .then(beersFromApi => res.render("beers", {beersFromApi}))
+    .catch(error => console.log(error));
 });
 
 app.get("/random-beer", (req, res) => {
