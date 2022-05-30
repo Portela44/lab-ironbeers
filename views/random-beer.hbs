@@ -1,3 +1,5 @@
-<div class="random-beer-partial">
-    {{>beer this}}
+<div class="beer-container">
+    {{#each randomBeerArr}}
+    {{>randomBeer this}}
+    {{/each}}
 </div>
